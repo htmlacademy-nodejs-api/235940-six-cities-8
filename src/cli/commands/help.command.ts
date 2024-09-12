@@ -8,7 +8,7 @@ export class HelpCommand implements ICommand {
 
   public async execute(..._parameters: string[]): Promise<void> {
     console.info(`
-      ${chalk.bold.inverse(' Программа для подготовки данных для REST API сервера. ')}
+      ${chalk.whiteBright('Программа для подготовки данных для REST API сервера.')}
 
       ${chalk.italic('Пример:')} ${chalk.whiteBright('cli.js')} ${chalk.cyanBright('--<command>')} ${chalk.yellowBright('[--arguments]')}
 
@@ -17,7 +17,6 @@ export class HelpCommand implements ICommand {
        ${chalk.cyanBright('--help:')}                        ${chalk.italic.dim('# печатает этот текст')}
        ${chalk.cyanBright('--import')} ${chalk.yellowBright('<path>')}:               ${chalk.italic.dim('# импортирует данные из TSV')}
        ${chalk.cyanBright('--generate')} ${chalk.yellowBright('<n> <path> <url>')}:   ${chalk.italic.dim('# генерирует произвольное количество тестовых данных')}
-
     `);
   }
 }
