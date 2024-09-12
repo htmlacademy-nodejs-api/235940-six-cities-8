@@ -19,7 +19,7 @@ export class CLIApplication {
     });
   }
 
-  public getDefaultCommand(): ICommand | never {
+  public getDefaultCommand(): ICommand {
     if (!this.commands[this.defaultCommand]) {
       throw new Error(`The default command (${this.defaultCommand}) is not registered.`);
     }
@@ -30,11 +30,11 @@ export class CLIApplication {
     return this.commands[commandName] ?? this.getDefaultCommand();
   }
 
-  public processCommand(argv: string[]): void {
+  public async processCommand(argv: string[]): Promise<void> {
     const parsedCommand = CommandParser.parse(argv);
     const [commandName] = Object.keys(parsedCommand);
     const command = this.getCommand(commandName);
     const commandArguments = parsedCommand[commandName] ?? [];
-    command.execute(...commandArguments);
+    await command.execute(...commandArguments);
   }
 }
