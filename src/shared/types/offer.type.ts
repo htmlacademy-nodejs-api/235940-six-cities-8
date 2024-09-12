@@ -1,5 +1,5 @@
 import { ECity } from './city.enum.js';
-import { EHousingType } from './housing-type.enum.js';
+import { THousingType } from './housing-type.type.js';
 import { TFacility } from './facility.type.js';
 import { TCoordinates } from './coordinates.type.js';
 
@@ -13,7 +13,7 @@ export type TOffer = {
   isPremium: boolean,
   isSelected: boolean,
   rating: number,
-  housingType: EHousingType,
+  housingType: THousingType,
   roomsNumber: number,
   guestsNumber: number,
   price: number,
