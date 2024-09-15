@@ -1,22 +1,22 @@
-import { ICommand } from './commands/command.interface.js';
-import { CommandParser } from './command-parser.js';
-
-type TCommandCollection = Record<string, ICommand>;
+import { ICommand } from './commands/types/command.interface.js';
+import { parseCommand } from './commands/utils/parse-command.util.js';
 
 export class CLIApplication {
-  private commands: TCommandCollection = {};
+  private readonly commands: Record<string, ICommand> = {};
 
   constructor(
     private readonly defaultCommand: string = '--help',
   ) {}
 
   public registerCommands(commandList: ICommand[]): void {
-    commandList.forEach((command) => {
-      if (Object.hasOwn(this.commands, command.getName())) {
-        throw new Error(`Command ${command.getName()} is already registered`);
+    commandList.reduce((acc, command) => {
+      const commandName = command.getName();
+      if (acc[commandName]) {
+        throw new Error(`Command ${commandName} is already registered`);
       }
-      this.commands[command.getName()] = command;
-    });
+      acc[commandName] = command;
+      return acc;
+    }, this.commands);
   }
 
   public getDefaultCommand(): ICommand {
@@ -31,10 +31,9 @@ export class CLIApplication {
   }
 
   public async processCommand(argv: string[]): Promise<void> {
-    const parsedCommand = CommandParser.parse(argv);
+    const parsedCommand = parseCommand(argv);
     const [commandName] = Object.keys(parsedCommand);
-    const command = this.getCommand(commandName);
     const commandArguments = parsedCommand[commandName] ?? [];
-    await command.execute(...commandArguments);
+    await this.getCommand(commandName).execute(...commandArguments);
   }
 }

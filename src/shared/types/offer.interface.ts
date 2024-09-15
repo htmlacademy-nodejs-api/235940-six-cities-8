@@ -1,9 +1,9 @@
 import { ECity } from './city.enum.js';
 import { THousingType } from './housing-type.type.js';
 import { TFacility } from './facility.type.js';
-import { TCoordinates } from './coordinates.type.js';
+import { ICoordinates } from './coordinates.interface.js';
 
-export type TOffer = {
+export interface IOffer {
   title: string,
   description: string,
   date: Date,
@@ -11,7 +11,6 @@ export type TOffer = {
   previewImage: string,
   images: string[],
   isPremium: boolean,
-  isSelected: boolean,
   rating: number,
   housingType: THousingType,
   roomsNumber: number,
@@ -20,5 +19,5 @@ export type TOffer = {
   facilities: TFacility[],
   author: string,
   commentsNumber: number,
-  coordinates: TCoordinates,
+  coordinates: ICoordinates,
 }

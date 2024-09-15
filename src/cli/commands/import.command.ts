@@ -1,4 +1,4 @@
-import { ICommand } from './command.interface.js';
+import { ICommand } from './types/command.interface.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
 
 export class ImportCommand implements ICommand {
@@ -8,6 +8,11 @@ export class ImportCommand implements ICommand {
 
   public async execute(...parameters: string[]): Promise<void> {
     const [fileName] = parameters;
+
+    if (!fileName || fileName.trim() === '') {
+      throw new Error('File name is missing.');
+    }
+
     const fileReader = new TSVFileReader(fileName.trim());
 
     try {

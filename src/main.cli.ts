@@ -9,7 +9,7 @@ const bootstrap = async () => {
     new ImportCommand(),
   ]);
 
-  cliApplication.processCommand(process.argv);
+  await cliApplication.processCommand(process.argv);
 };
 
 await bootstrap();

@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs';
 
-import { IFileReader } from './file-reader.interface.js';
-import { TOffer } from '../../types/index.js';
+import { IFileReader } from './types/file-reader.interface.js';
+import { IOffer } from '../../types/offer.interface.js';
 import { ECity } from '../../types/city.enum.js';
 import { TFacility } from '../../types/facility.type.js';
-import { TCoordinates } from '../../types/coordinates.type.js';
+import { ICoordinates } from '../../types/coordinates.interface.js';
 import { THousingType } from '../../types/housing-type.type.js';
 
 export class TSVFileReader implements IFileReader {
@@ -20,31 +20,27 @@ export class TSVFileReader implements IFileReader {
     }
   }
 
-  private parseImages(imagesString: string): string[] {
-    return imagesString.split(';');
+  private parseSemicolonSeparatedValues<T>(valuesString: string): T {
+    return valuesString.split(';') as T;
   }
 
   private parseIntNumber(numberString: string): number {
-    return Number.parseInt(numberString, 10);
+    return Number.parseInt(numberString);
   }
 
   private parseNumberWithDot(numberString: string): number {
     return Number.parseFloat(numberString);
   }
 
-  private parseFacilities(facilitiesString: string): TFacility[] {
-    return facilitiesString.split(';') as TFacility[];
-  }
-
-  private parseCoordinates(coordinatesString: string): TCoordinates {
+  private parseCoordinates(coordinatesString: string): ICoordinates {
     const coordinatesList = coordinatesString.split(';');
     return {
       latitude: this.parseNumberWithDot(coordinatesList[0]),
       longitude: this.parseNumberWithDot(coordinatesList[1]),
-    } as TCoordinates;
+    } as ICoordinates;
   }
 
-  private parseLineToOffer(line: string): TOffer {
+  private parseLineToOffer(line: string): IOffer {
     const [
       title,
       description,
@@ -53,7 +49,6 @@ export class TSVFileReader implements IFileReader {
       previewImage,
       images,
       isPremium,
-      isSelected,
       rating,
       housingType,
       roomsNumber,
@@ -69,27 +64,26 @@ export class TSVFileReader implements IFileReader {
       title,
       description,
       date: new Date(createDate),
-      city: ECity[city as keyof typeof ECity],
+      city: ECity[city as ECity],
       previewImage,
-      images: this.parseImages(images),
+      images: this.parseSemicolonSeparatedValues<string[]>(images),
       isPremium: !!this.parseIntNumber(isPremium),
-      isSelected: !!this.parseIntNumber(isSelected),
       rating: this.parseNumberWithDot(rating),
-      housingType: housingType as THousingType,
+      housingType: housingType as THousingType, // enum
       roomsNumber: this.parseIntNumber(roomsNumber),
       guestsNumber: this.parseIntNumber(guestsNumber),
       price: this.parseIntNumber(price),
-      facilities: this.parseFacilities(facilities),
+      facilities: this.parseSemicolonSeparatedValues<TFacility[]>(facilities), // enum list
       author,
       commentsNumber: this.parseIntNumber(commentsNumber),
       coordinates: this.parseCoordinates(coordinates),
     };
   }
 
-  private parseRawDataToOffers(): TOffer[] {
+  private parseRawDataToOffers(): IOffer[] {
     return this.rawData
       .split('\n')
-      .filter((row) => row.trim().length > 0)
+      .filter((row) => row.trim().length)
       .map((line) => this.parseLineToOffer(line));
   }
 
@@ -97,7 +91,7 @@ export class TSVFileReader implements IFileReader {
     this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
   }
 
-  public toArray(): TOffer[] {
+  public toArray(): IOffer[] {
     this.validateRawData();
     return this.parseRawDataToOffers();
   }

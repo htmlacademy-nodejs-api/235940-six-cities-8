@@ -1,30 +1,29 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { ICommand } from './command.interface.js';
-
-type TPackageJSONConfig = {
-  version: string;
-}
-
-const isPackageJSONConfig = (value: unknown): value is TPackageJSONConfig =>
-  typeof value === 'object' &&
-  value !== null &&
-  !Array.isArray(value) &&
-  Object.hasOwn(value, 'version');
+import { ICommand } from './types/command.interface.js';
+import { IPackageJSONConfig } from './types/package-json-config.interface.js';
 
 export class VersionCommand implements ICommand {
   constructor(
     private readonly filePath: string = 'package.json'
   ) {}
 
+  private isPackageJSONConfig(value: unknown): asserts value is IPackageJSONConfig {
+    if (!(
+      typeof value === 'object' &&
+      value !== null &&
+      !Array.isArray(value) &&
+      Object.hasOwn(value, 'version')
+    )) {
+      throw new Error();
+    };
+  }
+
   private readVersion(): string {
     const jsonContent = readFileSync(resolve(this.filePath), { encoding: 'utf-8' });
     const importedContent: unknown = JSON.parse(jsonContent);
-
-    if (!isPackageJSONConfig(importedContent)) {
-      throw new Error('Failed to parse json content.');
-    }
+    this.isPackageJSONConfig(importedContent);
 
     return importedContent.version;
   }
@@ -37,7 +36,7 @@ export class VersionCommand implements ICommand {
     try {
       const version = this.readVersion();
       console.info(version);
-    } catch (error: unknown) {
+    } catch (error) {
       console.error(`Failed to read version from ${this.filePath}`);
 
       if (error instanceof Error) {
