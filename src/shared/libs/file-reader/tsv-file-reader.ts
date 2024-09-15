@@ -6,6 +6,7 @@ import { ECity } from '../../types/city.enum.js';
 import { EFacility } from '../../types/facility.enum.js';
 import { ICoordinates } from '../../types/coordinates.interface.js';
 import { EHousingType } from '../../types/housing-type.enum.js';
+import { DECIMAL_RADIX } from './constants/decimal-radix.const.js';
 
 export class TSVFileReader implements IFileReader {
   private rawData = '';
@@ -25,7 +26,7 @@ export class TSVFileReader implements IFileReader {
   }
 
   private parseIntNumber(numberString: string): number {
-    return Number.parseInt(numberString);
+    return Number.parseInt(numberString, DECIMAL_RADIX);
   }
 
   private parseNumberWithDot(numberString: string): number {

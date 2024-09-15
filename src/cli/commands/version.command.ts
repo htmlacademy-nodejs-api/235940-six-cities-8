@@ -17,7 +17,7 @@ export class VersionCommand implements ICommand {
       Object.hasOwn(value, 'version')
     )) {
       throw new Error();
-    };
+    }
   }
 
   private readVersion(): string {
