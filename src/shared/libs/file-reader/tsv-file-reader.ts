@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 import { IFileReader } from './types/file-reader.interface.js';
 import { IOffer } from '../../types/offer.interface.js';
 import { ECity } from '../../types/city.enum.js';
-import { TFacility } from '../../types/facility.type.js';
+import { EFacility } from '../../types/facility.enum.js';
 import { ICoordinates } from '../../types/coordinates.interface.js';
-import { THousingType } from '../../types/housing-type.type.js';
+import { EHousingType } from '../../types/housing-type.enum.js';
 
 export class TSVFileReader implements IFileReader {
   private rawData = '';
@@ -64,16 +64,16 @@ export class TSVFileReader implements IFileReader {
       title,
       description,
       date: new Date(createDate),
-      city: ECity[city as ECity],
+      city: city as ECity,
       previewImage,
       images: this.parseSemicolonSeparatedValues<string[]>(images),
       isPremium: !!this.parseIntNumber(isPremium),
       rating: this.parseNumberWithDot(rating),
-      housingType: housingType as THousingType, // enum
+      housingType: housingType as EHousingType,
       roomsNumber: this.parseIntNumber(roomsNumber),
       guestsNumber: this.parseIntNumber(guestsNumber),
       price: this.parseIntNumber(price),
-      facilities: this.parseSemicolonSeparatedValues<TFacility[]>(facilities), // enum list
+      facilities: this.parseSemicolonSeparatedValues<EFacility[]>(facilities),
       author,
       commentsNumber: this.parseIntNumber(commentsNumber),
       coordinates: this.parseCoordinates(coordinates),
