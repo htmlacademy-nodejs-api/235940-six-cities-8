@@ -2,7 +2,7 @@ import got from 'got';
 import { appendFile } from 'node:fs/promises';
 
 import { ICommand } from './types/command.interface.js';
-import { DECIMAL_RADIX } from '../../shared/libs/file-reader/constants/decimal-radix.const.js';
+import { DECIMAL_RADIX } from '../../shared/constants/decimal-radix.const.js';
 import { IMockServerData } from '../../shared/types/mock-server-data.interface.js';
 import { TSVOfferGenerator } from '../../shared/libs/offer-generator/tsv-offer-generator.js';
 

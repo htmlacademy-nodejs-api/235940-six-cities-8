@@ -1,25 +1,20 @@
-import { readFileSync } from 'node:fs';
-
 import { IFileReader } from './types/file-reader.interface.js';
 import { IOffer } from '../../types/offer.interface.js';
 import { ECity } from '../../types/city.enum.js';
 import { EFacility } from '../../types/facility.enum.js';
 import { ICoordinates } from '../../types/coordinates.interface.js';
 import { EHousingType } from '../../types/housing-type.enum.js';
-import { DECIMAL_RADIX } from './constants/decimal-radix.const.js';
+import { DECIMAL_RADIX } from '../../constants/decimal-radix.const.js';
 import { EUserType } from '../../types/user-type.enum.js';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
+import { CHUNK_SIZE } from './constants/chunk-size.const.js';
 
-export class TSVFileReader implements IFileReader {
-  private rawData = '';
-
+export class TSVFileReader extends EventEmitter implements IFileReader {
   constructor(
     private readonly filename: string
-  ) {}
-
-  private validateRawData(): void {
-    if (!this.rawData) {
-      throw new Error('File was not read');
-    }
+  ) {
+    super();
   }
 
   private parseSemicolonSeparatedValues<T>(valuesString: string): T {
@@ -92,19 +87,29 @@ export class TSVFileReader implements IFileReader {
     };
   }
 
-  private parseRawDataToOffers(): IOffer[] {
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length)
-      .map((line) => this.parseLineToOffer(line));
-  }
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
 
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
-  }
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
 
-  public toArray(): IOffer[] {
-    this.validateRawData();
-    return this.parseRawDataToOffers();
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        const parsedOffer = this.parseLineToOffer(completeRow);
+        this.emit('line', parsedOffer);
+      }
+    }
+
+    this.emit('end', importedRowCount);
   }
 }
