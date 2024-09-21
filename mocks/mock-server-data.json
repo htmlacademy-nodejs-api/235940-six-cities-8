@@ -1,0 +1,83 @@
+{
+  "api": {
+    "titles": [
+      "Champerret Heliopolis",
+      "Düsseldorf 1995",
+      "Urban Tales",
+      "The Hoxton",
+      "Holiday Inn"
+    ],
+    "descriptions": [
+      "Charm and tranquility in the heart of the city",
+      "Just 2.4 miles from Central Station and 3 miles from the Opera Theatre",
+      "A 4-star accommodation with a terrace, a restaurant and a bar",
+      "Easy access to motorways allows guests to explore the region at their own leisure",
+      "Rooms are inspired by the theme of water, and offer natural wooden furnishings and large windows."
+    ],
+    "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "images": [
+      "img1.jpg",
+      "room-photo.jpg",
+      "qwerty.png",
+      "image.png",
+      "hotel123.jpg",
+      "view.jpg",
+      "bedroom.jpg",
+      "house.png"
+    ],
+    "housingTypes": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "facilities": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "userNames": [
+      "John Smith",
+      "Unknown Raccoon",
+      "Jane Doe",
+      "Muffin",
+      "Mark Twain"
+    ],
+    "emails": [
+      "Bernice.Graham74@gmail.com",
+      "Lupe_Herman@gmail.com",
+      "Zella_OHara@gmail.com",
+      "Brooklyn_Moore27@gmail.com",
+      "Genesis50@gmail.com"
+    ],
+    "avatars": [
+      "user.jpg",
+      "avatar.png",
+      "photo.jpg",
+      "img1234.jpg",
+      "98876234.png"
+    ],
+    "passwords": [
+      "b16&uD[",
+      "115:oQOKdI[*",
+      "I5j;U2",
+      "123456",
+      "ef2r2fwe"
+    ],
+    "userTypes": [
+      "обычный",
+      "pro"
+    ]
+  }
+}

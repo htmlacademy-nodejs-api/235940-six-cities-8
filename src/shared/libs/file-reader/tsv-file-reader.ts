@@ -7,6 +7,7 @@ import { EFacility } from '../../types/facility.enum.js';
 import { ICoordinates } from '../../types/coordinates.interface.js';
 import { EHousingType } from '../../types/housing-type.enum.js';
 import { DECIMAL_RADIX } from './constants/decimal-radix.const.js';
+import { EUserType } from '../../types/user-type.enum.js';
 
 export class TSVFileReader implements IFileReader {
   private rawData = '';
@@ -56,7 +57,11 @@ export class TSVFileReader implements IFileReader {
       guestsNumber,
       price,
       facilities,
-      author,
+      name,
+      email,
+      avatar,
+      password,
+      userType,
       commentsNumber,
       coordinates,
     ] = line.split('\t');
@@ -75,7 +80,13 @@ export class TSVFileReader implements IFileReader {
       guestsNumber: this.parseIntNumber(guestsNumber),
       price: this.parseIntNumber(price),
       facilities: this.parseSemicolonSeparatedValues<EFacility[]>(facilities),
-      author,
+      author: {
+        name,
+        email,
+        avatar,
+        password,
+        userType: userType as EUserType
+      },
       commentsNumber: this.parseIntNumber(commentsNumber),
       coordinates: this.parseCoordinates(coordinates),
     };
