@@ -2,6 +2,7 @@ import { ECity } from './city.enum.js';
 import { EHousingType } from './housing-type.enum.js';
 import { EFacility } from './facility.enum.js';
 import { ICoordinates } from './coordinates.interface.js';
+import { IUser } from './user.interface.js';
 
 export interface IOffer {
   title: string,
@@ -17,7 +18,7 @@ export interface IOffer {
   guestsNumber: number,
   price: number,
   facilities: EFacility[],
-  author: string,
+  author: IUser,
   commentsNumber: number,
   coordinates: ICoordinates,
 }

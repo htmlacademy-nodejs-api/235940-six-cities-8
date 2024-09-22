@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { CLIApplication, HelpCommand, VersionCommand, ImportCommand } from './cli/index.js';
+import { GenerateCommand } from './cli/commands/generate.command.js';
 
 const bootstrap = async () => {
   const cliApplication = new CLIApplication();
@@ -7,6 +8,7 @@ const bootstrap = async () => {
     new HelpCommand(),
     new VersionCommand(),
     new ImportCommand(),
+    new GenerateCommand(),
   ]);
 
   await cliApplication.processCommand(process.argv);
