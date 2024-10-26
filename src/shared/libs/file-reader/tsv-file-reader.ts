@@ -1,11 +1,11 @@
 import { IFileReader } from './types/file-reader.interface.js';
-import { IOffer } from '../../types/offer.interface.js';
-import { ECity } from '../../types/city.enum.js';
-import { EFacility } from '../../types/facility.enum.js';
-import { ICoordinates } from '../../types/coordinates.interface.js';
-import { EHousingType } from '../../types/housing-type.enum.js';
+import { IOffer } from '../../types/database/offer.interface.js';
+import { ECity } from '../../types/database/city.enum.js';
+import { EFacility } from '../../types/database/facility.enum.js';
+import { ICoordinates } from '../../types/database/coordinates.interface.js';
+import { EHousingType } from '../../types/database/housing-type.enum.js';
 import { DECIMAL_RADIX } from '../../constants/decimal-radix.const.js';
-import { EUserType } from '../../types/user-type.enum.js';
+import { EUserType } from '../../types/database/user-type.enum.js';
 import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
 import { CHUNK_SIZE } from './constants/chunk-size.const.js';

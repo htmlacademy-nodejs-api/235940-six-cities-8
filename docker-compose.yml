@@ -1,6 +1,6 @@
 services:
   db:
-    image: mongo:7
+    image: mongo:latest
     restart: always
     container_name: six-cities_mongodb
     environment:
@@ -10,6 +10,8 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - six-cities_data:/data/db
+    networks:
+      - app-network
 
   db_ui:
     image: mongo-express:latest
@@ -23,6 +25,12 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${DB_USERNAME}:${DB_PASSWORD}@db:${DB_PORT}/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   six-cities_data:

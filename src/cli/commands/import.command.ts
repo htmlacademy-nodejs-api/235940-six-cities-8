@@ -1,6 +1,6 @@
 import { ICommand } from './types/command.interface.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
-import { IOffer } from '../../shared/types/offer.interface.js';
+import { IOffer } from '../../shared/types/database/offer.interface.js';
 import { getErrorMessage } from '../../shared/utils/getErrorMessage.js';
 
 export class ImportCommand implements ICommand {
