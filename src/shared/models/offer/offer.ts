@@ -1,11 +1,11 @@
-import { defaultClasses, getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { defaultClasses, getModelForClass, modelOptions, prop, Ref, Severity } from '@typegoose/typegoose';
 import { ECity } from '../../types/database/city.enum.js';
 import { EHousingType } from '../../types/database/housing-type.enum.js';
 import { EFacility } from '../../types/database/facility.enum.js';
 import { User } from '../user/index.js';
 import { ICoordinates } from '../../types/database/coordinates.interface.js';
 
-@modelOptions({ schemaOptions: { collection: 'offers', timestamps: true, id: true } })
+@modelOptions({ schemaOptions: { collection: 'offers', timestamps: true, id: true }, options: {allowMixed: Severity.ALLOW} })
 export class Offer extends defaultClasses.TimeStamps {
   @prop({ required: true, trim: true })
   public title: string;
@@ -43,7 +43,7 @@ export class Offer extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public price: number;
 
-  @prop({ required: true, enum: EFacility })
+  @prop({ required: true, type: () => [String], enum: EFacility })
   public facilities: EFacility[];
 
   @prop({ required: true, ref: User })
