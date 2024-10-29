@@ -86,7 +86,7 @@ components:
           example: placeholder.png
         password:
           type: string
-          example: 123456
+          example: qwe123
         type:
           type: string
           enum: ['обычный', 'pro']
